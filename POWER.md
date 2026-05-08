@@ -68,3 +68,11 @@ When helping with Chainguard tasks, always keep these in mind:
 4. **dev vs. non-dev variants** — The `:latest-dev` tag includes a shell and package manager for debugging. Production workloads should use the non-dev tag.
 
 5. **Supply chain verification** — Chainguard images ship with SBOM and Sigstore attestations. When security is a concern, use `cg-api` tools to verify attestations and check provenance.
+
+---
+
+## License and support
+
+This power integrates with Chainguard MCP Servers (Apache-2.0).
+- [Privacy Policy](https://www.chainguard.dev/privacy-policy)
+- [Support](https://www.chainguard.dev/contact)
