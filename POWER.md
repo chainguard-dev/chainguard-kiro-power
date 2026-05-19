@@ -1,8 +1,8 @@
 ---
 name: chainguard
 displayName: Chainguard
-description: Secure container images, language libraries, supply chain security, and Wolfi APK package workflows using Chainguard's platform. Covers Dockerfile migration, image discovery, package lookup, Chainguard platform management, and securing Java/JavaScript/Python dependencies via Chainguard Libraries.
-keywords: chainguard, cgr.dev, wolfi, distroless, container security, supply chain, apk, chainguard images, enforce, chainctl, sbom, attestation, cve, hardened, migration, libraries, libraries.cgr.dev, maven, gradle, npm, yarn, pnpm, pip, pypi, poetry, uv, java library, python package, javascript package, dependency, secure dependencies
+description: Use Chainguard's secure container images, Wolfi APK packages, and hardened language libraries. Migrate Dockerfiles, find images and packages, and run chainctl workflows.
+keywords: ["chainguard", "wolfi", "container security", "supply chain", "distroless"]
 author: Chainguard
 ---
 
