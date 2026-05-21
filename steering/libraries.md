@@ -15,16 +15,38 @@ The current Chainguard MCP servers do not cover Libraries. This workflow is base
 
 1. **Chainguard Libraries subscription** — required for access to `libraries.cgr.dev`. Direct users to `https://www.chainguard.dev/libraries` to sign up or start a trial.
 
-2. **Pull token** — obtain credentials via chainctl:
+2. **Pull token** — obtain credentials via chainctl. The token system has been consolidated under `chainctl auth pull-token`; the older `chainctl tokens create` and `chainctl libraries token <ecosystem>` subcommands are gone.
+
    ```bash
-   # Get identity ID and token for your specific ecosystem
-   chainctl auth configure-docker   # also sets up library credentials
-   # Or generate a pull token directly:
-   chainctl tokens create --parent <org-id>
+   # Create an ecosystem-scoped pull token (java | python | javascript | apk | oci)
+   chainctl auth pull-token create --repository=java
+
+   # Common flags:
+   #   --ttl=24h          token lifetime; max 8760h (1 year). Defaults to short-lived.
+   #   --parent=<org>     create the pull token under a specific organization/folder.
+   #   --name=<label>     human-readable label for later identification.
+   #   -o json            machine-readable output (use to extract identity/secret in scripts).
+
+   # JavaScript shortcut: writes a project-level .npmrc for you.
+   #   - bare command uses your current Chainguard session
+   #   - --pull-token requests a long-lived pull token (CI-friendly)
+   chainctl auth configure-npm
+   chainctl auth configure-npm --pull-token --ttl=24h
+
+   # OCI/registry credential helper (unchanged):
+   chainctl auth configure-docker
    ```
+
    The pull token provides two values used across all ecosystems:
-   - **Identity ID** — used as the username
-   - **Token** — used as the password
+   - **Identity ID** — used as the username (basic-auth user component)
+   - **Token** — used as the password (basic-auth secret component)
+
+   To list or audit existing pull tokens:
+   ```bash
+   chainctl auth pull-token list
+   chainctl auth pull-token list --repository=java
+   chainctl auth pull-token list --expired
+   ```
 
 3. **Approach: direct vs. repo manager** — ask the user which they use:
    - **Direct**: configure the build tool to hit `libraries.cgr.dev` directly (simpler, good for individuals/small teams)
@@ -135,7 +157,15 @@ export CHAINGUARD_JAVASCRIPT_IDENTITY_ID="<your-identity-id>"
 export CHAINGUARD_JAVASCRIPT_TOKEN="<your-token>"
 ```
 
-### npm — direct access (.npmrc)
+### npm — quickest path: `chainctl auth configure-npm`
+For most users, skip the manual `.npmrc` construction below and run:
+```bash
+chainctl auth configure-npm                       # uses your current session
+chainctl auth configure-npm --pull-token --ttl=24h # long-lived pull token, CI-friendly
+```
+This writes a project-level `.npmrc` with the registry URL and basic-auth credentials. Only fall back to the manual steps if you need a hand-built `.npmrc` (e.g., templating into another tool).
+
+### npm — manual direct access (.npmrc)
 ```bash
 # Generate base64-encoded credentials (no line wrapping)
 export token=$(echo -n "${CHAINGUARD_JAVASCRIPT_IDENTITY_ID}:${CHAINGUARD_JAVASCRIPT_TOKEN}" | base64 -w 0)
