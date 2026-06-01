@@ -8,7 +8,7 @@ Bring Chainguard's supply chain security capabilities directly into your Kiro ID
 
 | You ask about... | What happens |
 |---|---|
-| Migrating a Dockerfile to Chainguard Images | Agent rewrites your `FROM` line, translates packages to Wolfi APKs, handles multi-stage builds |
+| Migrating a Dockerfile to Chainguard Images | Agent rewrites your `FROM` line, translates packages to Wolfi APKs, and handles multi-stage builds |
 | Securing Java/JavaScript/Python dependencies | Agent configures Maven/Gradle/npm/pip/poetry/uv to pull from `libraries.cgr.dev` |
 | Finding a Chainguard image or tag | Agent queries the live `cgr.dev` registry via MCP |
 | Looking up an APK package | Agent searches `apk.cgr.dev` for Wolfi equivalents |
